@@ -1,12 +1,11 @@
 import formidable from 'formidable';
+import middleware from '../../middleware/mongo';
+import nextConnect from 'next-connect';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+const handler = nextConnect();
+handler.use(middleware);
 
-export default async (req, res) => {
+handler.post(async (req, res) => {
   return new Promise((resolve, reject) => {
     const form = new formidable.IncomingForm();
     form.uploadDir = "./upload";
@@ -20,5 +19,10 @@ export default async (req, res) => {
       resolve();
     });
   })
+})
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 };
